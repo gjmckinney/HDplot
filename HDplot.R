@@ -4,10 +4,10 @@ library(dplyr)
 library(stringr)
 
 #HDplot function
-HDPlot<-function(vcfData){
+HDplot<-function(vcfData){
   #set up results table
   HDplotTable<-as.data.frame(matrix(NA,nrow=dim(vcfData@gt)[1],ncol=13))
-  colnames(HDplotTable)<-c("CHROM","POS","ID","depth_a","depth_b","ratio","num_hets","num_samples","num_called","H_all","H_called","std","D")
+  colnames(HDplotTable)<-c("CHROM","POS","ID","depth_a","depth_b","ratio","num_hets","num_samples","num_called","H_all","H","std","D")
   
   #get genotypes from vcf file
   genos<-extract.gt(vcfData, element = "GT", mask = FALSE, as.numeric = FALSE, return.alleles = FALSE, 
@@ -51,7 +51,7 @@ HDPlot<-function(vcfData){
   hetPerc<-numHets/dim(hetMatrix)[2]
   
   numGenos<-apply(calledGenos,1,sum,na.rm=TRUE)
-  Hcalled<-numHets/numGenos
+  H<-numHets/numGenos
   
   #assign results to HDplotTable
   HDplotTable$CHROM<-vcfData@fix[,"CHROM"]
@@ -64,7 +64,7 @@ HDPlot<-function(vcfData){
   HDplotTable$num_samples<-dim(hetMatrix)[2]
   HDplotTable$num_called<-numGenos
   HDplotTable$H_all<-hetPerc
-  HDplotTable$H_called<-Hcalled
+  HDplotTable$H<-H
   HDplotTable$std<-std
   HDplotTable$D<-z
 
