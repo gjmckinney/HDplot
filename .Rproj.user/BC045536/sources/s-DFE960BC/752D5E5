@@ -1,0 +1,27 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1592006041160.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "166150029",
+    "id" : "752D5E5",
+    "lastKnownWriteTime" : 1592403015,
+    "last_content_update" : 1592403015136,
+    "path" : "D:/GitHub/HDplot/README.Rmd",
+    "project_path" : "README.Rmd",
+    "properties" : {
+        "cursorPosition" : "67,0",
+        "last_setup_crc32" : "DFE960BC62217f8d",
+        "scrollLine" : "66",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
