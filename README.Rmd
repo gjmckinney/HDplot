@@ -1,0 +1,70 @@
+---
+title: 'HDplot - Paralog identification using population-level NGS data'
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.path = "tools/")
+
+```
+
+HDplot allows the identification of paralogous SNPs by taking advantage of the fact that paralogs and non-paralogs differ in expected heterozygosity and read ratios within heterozygous individuals.
+
+
+## Input Data
+
+HDplot needs takes a vcfR oject as input.  
+
+
+
+## Running HDplot
+The easiest way to generate the correct input is to load a vcf file using the read.vcfR() function from the vcfR package.
+
+```{r, include=FALSE}
+#set working directory
+setwd("D:/GitHub/HDplot")
+```
+
+```{r Running HDplot}
+library(vcfR)
+source("HDplot.R")
+
+vcfInput<-read.vcfR("exampleInput_100Samples.vcf")
+
+HDplotResults<-HDplot(vcfInput)
+
+```
+
+The resulting dataframe includes all necessary data to plot results and assign paralog status
+```{r HDplot results}
+head(HDplotResults)
+```
+
+The following columns are output in the dataframe:
+`CHROM, POS, ID`: These are the chromosome, position, and ID columns from the VCF file.
+`depth_a, depth_b`: These are the total read depths for the A and B alleles in heterozygous individuals.
+`ratio`: This is the ratio fo the A reads to B reads.
+`num_hets, num_samples, num_called`: These are the number of heterozygous individuals, the number of total individuals, and the number of individuals with called genotypes.
+`H_all, H`: H_all is the heterozygosity calculated as the number of heterozygous individuals out of the total individuals.  H is the heterozygosity calculated as the number of heterozygous individuals out of the number of individuals with called genotypes.  With low missing data these values should be similar, at high missing data H_all will be reduced relative to H.
+`std`: This is the standard deviation of the ratio.
+`D`: This is the deviation of the ratio from 50:50 expectations, calculated as a z-score.
+
+## Plotting HDplot results
+
+The important fields for plotting are H and D (ratio can also be an informative alternative to D).  H is the heterozygosity for each SNP while D is the deviation from even read-ratios in heterozygous individuals.  The ratio column is read-ratio in heterzygous individuals and is useful for confirming that thresholds set for D look appropriate.
+
+```{r Plotting Results}
+#plot H and D
+HDplotResults %>% ggplot()+geom_point(aes(x=H,y=D))
+
+#plot H and ratio
+HDplotResults %>% ggplot()+geom_point(aes(x=H,y=ratio))
+
+```
+
+
+
+
