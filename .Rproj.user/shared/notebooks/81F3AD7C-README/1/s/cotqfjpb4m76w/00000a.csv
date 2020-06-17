@@ -1,0 +1,4 @@
+"0",""
+"0","#plot H and ratio"
+"0","HDplotResults %>% ggplot()+geom_point(aes(x=H,y=ratio))"
+"0",""
